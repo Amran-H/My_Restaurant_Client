@@ -6,7 +6,7 @@ const NavBar = () => {
     const navOptions = <>
         <li className='text-white'><Link to='/' className='text-white hover:text-white focus:text-white '>Home</Link></li>
         <li className='text-white'><Link to='/menu' className='text-white hover:text-white focus:text-white '>Our Menu</Link></li>
-        <li className='text-white' ><Link to='/menu' className='text-white hover:text-white focus:text-white '>Item 3</Link></li>
+        <li className='text-white'><Link to='/order/salad' className='text-white hover:text-white focus:text-white '>Order Food</Link></li>
     </>
 
     return (
