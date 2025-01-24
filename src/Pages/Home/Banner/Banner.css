@@ -1,0 +1,27 @@
+.custom-carousel .carousel .thumbs-wrapper {
+    display: flex;
+    justify-content: center;
+    /* Centers thumbnails horizontally */
+    padding: 10px 0;
+}
+
+.custom-carousel .carousel .thumbs {
+    justify-content: center;
+    margin-top: -10px;
+    /* Ensures thumbnails are aligned */
+}
+
+.custom-carousel .carousel .thumb {
+    margin: 0 5px;
+    /* Adjusts spacing between thumbnails */
+    cursor: pointer;
+}
+
+.custom-carousel .carousel .thumb img {
+    border-radius: 5px;
+    /* Optional: adds rounded corners to thumbnails */
+    width: 70px;
+    /* Optional: adjust thumbnail size */
+    height: auto;
+    /* Maintains aspect ratio */
+}

@@ -9,22 +9,23 @@ import Slide3 from "../../../assets/home/slide3.jpg"
 import Slide4 from "../../../assets/home/slide4.jpg"
 import Slide5 from "../../../assets/home/slide5.jpg"
 import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
+import './Category.css'; // Custom CSS file for Swiper styling
 
 const Category = () => {
     return (
-        <section>
+        <section className='mx-10'>
             <SectionTitle heading={"Order Online"}
                 subHeading={"From 11.00am to 10.00pm"}>
             </SectionTitle>
             <Swiper
                 slidesPerView={4}
                 spaceBetween={30}
-                centeredSlides={true}
+                centeredSlides={false}
                 pagination={{
                     clickable: true,
                 }}
                 modules={[Pagination]}
-                className="mySwiper mb-20"
+                className="mySwiper "
             >
                 <SwiperSlide><img src={Slide1} alt="" />
                     <h3 className='uppercase text-4xl -mt-16 text-white text-center'>Salads</h3>

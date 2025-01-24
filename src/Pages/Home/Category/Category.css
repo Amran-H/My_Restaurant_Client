@@ -1,0 +1,8 @@
+.mySwiper .swiper-pagination {
+    position: relative;
+    /* Relative positioning */
+    margin-top: 40px;
+    /* Add some spacing between the content and pagination */
+    text-align: center;
+    /* Center-align the pagination */
+}
