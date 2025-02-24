@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 const NavBar = () => {
 
     const navOptions = <>
-        <li className='text-white'><Link to='/' className='text-white hover:text-white focus:text-white '>Home</Link></li>
-        <li className='text-white'><Link to='/menu' className='text-white hover:text-white focus:text-white '>Our Menu</Link></li>
-        <li className='text-white'><Link to='/order/salad' className='text-white hover:text-white focus:text-white '>Order Food</Link></li>
+        <li><Link to='/' className='text-white hover:text-white focus:text-white '>Home</Link></li>
+        <li><Link to='/menu' className='text-white hover:text-white focus:text-white '>Our Menu</Link></li>
+        <li><Link to='/order/salad' className='text-white hover:text-white focus:text-white '>Order Food</Link></li>
+        <li><Link to='/login' className='text-white hover:text-white focus:text-white '>Login</Link></li>
     </>
 
     return (
