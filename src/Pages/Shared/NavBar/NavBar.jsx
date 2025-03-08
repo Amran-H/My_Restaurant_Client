@@ -21,7 +21,7 @@ const NavBar = () => {
         <li><Link to='/order/salad' className='text-white hover:text-white focus:text-white '>Order Food</Link></li>
         <li><Link to='/secret' className='text-white hover:text-white focus:text-white '>Secret</Link></li>
         <li>
-            <Link to='/' className='text-white hover:text-white focus:text-white '>
+            <Link to='/dashboard/cart' className='text-white hover:text-white focus:text-white '>
                 <button className='btn btn-ghost'>
                     <FaShoppingCart className='text-white' />
                     <div className='badge badge-secondary'>+{cart.length}</div>
