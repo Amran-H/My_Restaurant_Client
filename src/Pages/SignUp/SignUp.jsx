@@ -6,8 +6,11 @@ import { Link, useFormAction, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
+import SocialLogin from '../../Components/SocialLogin/SocialLogin';
 
 const SignUp = () => {
+    const axiosPublic = useAxiosPublic();
     const {
         register,
         handleSubmit,
@@ -18,7 +21,7 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     const onSubmit = data => {
-        console.log(data);
+
         createUser(data.email, data.password)
             .then((result) => {
                 const loggedUser = result.user;
@@ -26,17 +29,25 @@ const SignUp = () => {
                 updateUserProfile(data.name, data.photoURL)
             })
             .then(() => {
-                console.log('User Profile Updated Successfully');
-                reset();
-                Swal.fire({
-                    position: "top-end",
-                    title: "User created successfully",
-                    icon: "success",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                navigate('/')
-
+                // create user entry in the database
+                const userInfo = {
+                    name: data.name,
+                    email: data.email,
+                }
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        if (res.data.insertedId) {
+                            reset();
+                            Swal.fire({
+                                position: "top-end",
+                                title: "User created successfully",
+                                icon: "success",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            navigate('/')
+                        }
+                    })
             })
             .catch(error => console.log(error));
 
@@ -121,7 +132,8 @@ const SignUp = () => {
                                 <input className="btn btn-primary" type="submit" value='Sign Up' />
                             </div>
                         </form>
-                        <p><small>Already have an account? <Link to='/login'>Please Login</Link></small></p>
+                        <p className='mx-7 mt-[-30px]'> <SocialLogin></SocialLogin></p>
+                        <p className='px-6'><small>Already have an account? <Link to='/login'>Please Login</Link></small></p>
                     </div>
                 </div>
             </div>
