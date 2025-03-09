@@ -3,6 +3,7 @@ import useCart from '../../../hooks/useCart';
 import { FaCut, FaTrash, FaTrashAlt } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
 
 const Cart = () => {
     const [cart, refetch] = useCart();
@@ -39,16 +40,20 @@ const Cart = () => {
 
     return (
         <div>
-            <div className='flex justify-evenly mb-8'>
-                <h2 className="text-4xl">Items: {cart.length}</h2>
-                <h2 className="text-4xl">Total Price: {totalPrice}</h2>
-                <button className='btn btn-primary'>Pay</button>
+            <SectionTitle heading={"Wanna Add More?"}
+                subHeading={"My Cart"}>
+            </SectionTitle>
+            <div className='flex justify-between mb-4 font-semibold'>
+                <h2 className="text-3xl">Total Orders: {cart.length}</h2>
+                <h2 className="text-3xl">Total Price: {totalPrice}</h2>
+                <button className='btn bg-[#D1A054]  w-[70px] text-white font-bold'>Pay</button>
             </div>
             {/* Table */}
             <div className="overflow-x-auto">
+
                 <table className="table w-full">
                     {/* head */}
-                    <thead>
+                    <thead className='bg-[#D1A054] text-white'>
                         <tr>
                             <th>
                                 #
@@ -75,7 +80,7 @@ const Cart = () => {
                                 <th>
                                     <button
                                         onClick={() => handleDelete(item._id)}
-                                        className="btn btn-error btn-md"><FaTrashAlt></FaTrashAlt> </button>
+                                        className="btn bg-[#B91C1C] text-white btn-md"><FaTrashAlt></FaTrashAlt> </button>
                                 </th>
                             </tr>)
                         }

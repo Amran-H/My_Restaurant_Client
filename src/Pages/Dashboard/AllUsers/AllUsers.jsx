@@ -3,6 +3,7 @@ import React from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { FaTrashAlt, FaUsers } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
 
 const AllUsers = () => {
     const axiosSecure = useAxiosSecure();
@@ -59,14 +60,17 @@ const AllUsers = () => {
 
     return (
         <div>
+            <SectionTitle heading={"Manage all users"}
+                subHeading={"How many?"}>
+            </SectionTitle>
             <div>
-                <h2 className="text-3xl">Total Users: {users.length}</h2>
+                <h2 className="text-3xl font-semibold mb-3">Total Users: {users.length}</h2>
             </div>
             {/* Table */}
             <div className="overflow-x-auto">
-                <table className="table w-full">
+                <table className="table w-full  rounded-lg">
                     {/* head */}
-                    <thead>
+                    <thead className='bg-[#D1A054] text-white'>
                         <tr>
                             <th>
 
@@ -91,11 +95,11 @@ const AllUsers = () => {
                                 </td>
                                 <td> {user.role === 'admin' ? "Admin" : <button
                                     onClick={() => handleMakeAdmin(user)}
-                                    className="btn bg-orange-500 btn-md"><FaUsers className='text-xl text-white'></FaUsers> </button>}</td>
+                                    className="btn bg-[#D1A054] btn-md"><FaUsers className='text-xl text-white'></FaUsers> </button>}</td>
                                 <th>
                                     <button
                                         onClick={() => handleDeleteUser(user)}
-                                        className="btn btn-error btn-md"><FaTrashAlt className='text-md text-white'></FaTrashAlt> </button>
+                                        className="btn bg-[#B91C1C] btn-md"><FaTrashAlt className='text-md text-white'></FaTrashAlt> </button>
                                 </th>
                             </tr>)
                         }
