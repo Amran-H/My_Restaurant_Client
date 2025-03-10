@@ -5,26 +5,33 @@ import { FaUtensils } from "react-icons/fa";
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
+import { useLoaderData } from 'react-router-dom';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const AddItems = () => {
+const UpdateItem = () => {
+    const { name, recipe, category, price, _id, image } = useLoaderData();
+    console.log(name, recipe, category, price, _id, image);
     const { register, handleSubmit, reset } = useForm();
     const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); // Loader state
     const [previewImage, setPreviewImage] = useState(null);
 
+
     const onSubmit = async (data) => {
-        setIsLoading(true);
+        setIsLoading(true); // Start loading
         try {
+            let imageURL = image;
+            // Upload image
             const imageFile = { image: data.image[0] };
             const res = await axiosPublic.post(image_hosting_api, imageFile, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
             if (res.data.success) {
+                // Send menu data to server
                 const menuItem = {
                     name: data.name,
                     category: data.category,
@@ -33,14 +40,13 @@ const AddItems = () => {
                     image: res.data.data.display_url
                 };
 
-                const menuRes = await axiosSecure.post('/menu', menuItem);
+                const menuRes = await axiosSecure.patch(`/menu/${_id}`, menuItem);
 
-                if (menuRes.data.insertedId) {
-                    reset();
-                    setPreviewImage(null); // Reset preview after successful upload
+                if (menuRes.data.modifiedCount > 0) {
+                    // reset();
                     Swal.fire({
-                        title: `${data.name} added`,
-                        text: `${data.name} has been added to the menu.`,
+                        title: `${data.name} updated`,
+                        text: `${data.name} has been updated`,
                         icon: 'success',
                         timer: 1500,
                     });
@@ -49,7 +55,7 @@ const AddItems = () => {
         } catch (error) {
             console.error("Error uploading:", error);
         } finally {
-            setIsLoading(false);
+            setIsLoading(false); // Stop loading
         }
     };
 
@@ -64,7 +70,7 @@ const AddItems = () => {
 
     return (
         <div>
-            <SectionTitle heading="ADD AN ITEM" subHeading="What's new?" />
+            <SectionTitle heading="UPDATE AN ITEM" subHeading="Modify your item" />
             <div className='bg-[#F3F3F3] py-8 px-12'>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className='form-control w-full my-6'>
@@ -72,17 +78,19 @@ const AddItems = () => {
                             <span className='label-text font-bold'>Recipe Name*</span>
                         </label>
                         <input type="text"
+                            defaultValue={name}
                             placeholder='Recipe Name'
                             {...register('name', { required: true })}
                             className='input input-bordered w-full' />
                     </div>
 
                     <div className='flex gap-6 mb-6'>
+                        {/* Category */}
                         <div className='form-control w-full'>
                             <label className="label">
                                 <span className='label-text font-bold'>Category*</span>
                             </label>
-                            <select defaultValue="default" {...register("category", { required: true })}
+                            <select defaultValue={category} {...register("category", { required: true })}
                                 className='select select-bordered w-full '>
                                 <option disabled value="default">Select a category</option>
                                 <option value="salad">Salad</option>
@@ -93,22 +101,25 @@ const AddItems = () => {
                             </select>
                         </div>
 
+                        {/* Price */}
                         <div className='form-control w-full '>
                             <label className="label">
                                 <span className='label-text font-bold'>Price*</span>
                             </label>
                             <input type="number"
+                                defaultValue={price}
                                 placeholder='Price'
                                 {...register('price', { required: true })}
                                 className='input input-bordered w-full' />
                         </div>
                     </div>
 
+                    {/* Recipe Details */}
                     <div className='form-control'>
                         <label className="label font-bold">
                             <span>Recipe Details*</span>
                         </label>
-                        <textarea {...register('recipe', { required: true })} className='textarea textarea-bordered h-40' placeholder="Recipe details"></textarea>
+                        <textarea {...register('recipe', { required: true })} className='textarea textarea-bordered h-40' defaultValue={recipe} placeholder="Recipe details"></textarea>
                     </div>
 
                     {/* Image Upload Section */}
@@ -126,9 +137,11 @@ const AddItems = () => {
                                         className="w-48 h-48 rounded-lg object-cover border shadow-md"
                                     />
                                 ) : (
-                                    <div className="w-48 h-48 flex items-center justify-center border rounded-lg bg-gray-200 text-gray-500">
-                                        No Image Selected
-                                    </div>
+                                    <img
+                                        src={image} // This is the existing image
+                                        alt="Existing Image"
+                                        className="w-48 h-48 rounded-lg object-cover border shadow-md"
+                                    />
                                 )}
                             </div>
 
@@ -147,20 +160,23 @@ const AddItems = () => {
                         </div>
                     </div>
 
-                    {/* Submit Button */}
-                    <button className='btn bg-[#B58130] text-white flex items-center' disabled={isLoading}>
-                        {isLoading ? (
-                            <span className="loading loading-spinner"></span>
-                        ) : (
-                            <>
-                                Add Item <FaUtensils />
-                            </>
-                        )}
-                    </button>
+
+                    <div className='flex justify-center mt-4'>
+                        {/* Submit Button with Loader */}
+                        <button className='btn bg-[#B58130] text-white flex items-center ' disabled={isLoading}>
+                            {isLoading ? (
+                                <span className="loading loading-spinner"></span> // Tailwind Spinner
+                            ) : (
+                                <>
+                                    Update Recipe Details <FaUtensils />
+                                </>
+                            )}
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
     );
 };
 
-export default AddItems;
+export default UpdateItem;

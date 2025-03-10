@@ -4,13 +4,14 @@ import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
 import useMenu from '../../../hooks/useMenu';
+import { Link } from 'react-router-dom';
 
 const ManageItems = () => {
-    const [menu, refetch] = useMenu();
+    const [menu, loading, refetch] = useMenu();
     const axiosSecure = useAxiosSecure();
 
-    const handleDelete = (id) => {
-
+    const handleDelete = async (id) => {
+        // Show confirmation modal
         Swal.fire({
             title: 'Are you sure?',
             text: 'You will not be able to recover this item!',
@@ -21,21 +22,33 @@ const ManageItems = () => {
             confirmButtonText: 'Yes, delete it!',
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const res = axiosSecure.delete(`/menu/${id}`)
-                    .then(res => {
-                        if (res.data.deletedCount > 0) {
-                            refetch();
-                            Swal.fire({
-                                title: 'Deleted!',
-                                text: 'Your item has been deleted.',
-                                icon: 'success',
-                                timer: 1500,
-                            });
-                        }
-                    })
+                try {
+                    // Call the delete API
+                    const res = await axiosSecure.delete(`/menu/${id}`);
+
+                    // Check if the item was deleted
+                    if (res.data.deletedCount > 0) {
+                        refetch(); // Re-fetch the updated menu list
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: 'Your item has been deleted.',
+                            icon: 'success',
+                            timer: 1500,
+                        });
+                    }
+                } catch (error) {
+                    // Handle error
+                    console.error('Error deleting item:', error);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'There was an issue deleting the item.',
+                        icon: 'error',
+                    });
+                }
             }
-        })
-    }
+        });
+    };
+
 
     return (
         <div>
@@ -81,9 +94,9 @@ const ManageItems = () => {
                                     </td>
                                     <td>{item.price}</td>
                                     <th>
-                                        <button
-
-                                            className="btn bg-[#D1A054] text-white btn-md"><FaRegEdit className='text-lg'></FaRegEdit> </button>
+                                        <Link to={`/dashboard/updateItem/${item._id}`}>
+                                            <button className="btn bg-[#D1A054] text-white btn-md"><FaRegEdit className='text-lg'></FaRegEdit> </button>
+                                        </Link>
                                     </th>
                                     <th>
                                         <button
