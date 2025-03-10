@@ -2,12 +2,25 @@ import React from 'react';
 import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
 import { useForm } from "react-hook-form"
 import { FaUtensils } from "react-icons/fa"
+import useAxiosPublic from '../../../hooks/useAxiosPublic';
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const AddItems = () => {
     const { register, handleSubmit } = useForm();
+    const axiosPublic = useAxiosPublic();
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data)
+        // image upload to imagebb and then get an url
+        const imageFile = { image: data.image[0] }
+        const res = await axiosPublic.post(image_hosting_api, imageFile, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        console.log(res.data);
     }
 
     return (
@@ -15,11 +28,11 @@ const AddItems = () => {
             <SectionTitle heading={"ADD AN ITEM"}
                 subHeading={"What's new?"}>
             </SectionTitle>
-            <div>
+            <div className='bg-[#F3F3F3] py-8 px-12'>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className='form-control w-full my-6'>
                         <label className="label">
-                            <span className='label-text'>Recipe Name*</span>
+                            <span className='label-text font-bold'>Recipe Name*</span>
                         </label>
                         <input type="text"
                             placeholder='Recipe Name'
@@ -27,15 +40,15 @@ const AddItems = () => {
                             className='input input-bordered w-full' />
                     </div>
 
-                    <div className='flex gap-6'>
+                    <div className='flex gap-6 mb-6'>
                         {/* category */}
                         <div className='form-control w-full'>
                             <label className="label">
-                                <span className='label-text'>Category*</span>
+                                <span className='label-text font-bold'>Category*</span>
                             </label>
-                            <select {...register("category", { required: true })}
+                            <select defaultValue="default" {...register("category", { required: true })}
                                 className='select select-bordered w-full '>
-                                <option disabled selected>Select a category</option>
+                                <option disabled value="default">Select a category</option>
                                 <option value="salad">Salad</option>
                                 <option value="pizza">Pizza</option>
                                 <option value="soup">Soup</option>
@@ -47,7 +60,7 @@ const AddItems = () => {
                         {/* Price */}
                         <div className='form-control w-full '>
                             <label className="label">
-                                <span className='label-text'>Price*</span>
+                                <span className='label-text font-bold'>Price*</span>
                             </label>
                             <input type="number"
                                 placeholder='Price'
@@ -58,7 +71,7 @@ const AddItems = () => {
                     </div>
                     {/* recipe details */}
                     <div className='form-control'>
-                        <label className="label">
+                        <label className="label font-bold">
                             <span>Recipe Details*</span>
                         </label>
                         <textarea {...register('recipe', { required: true })} className='textarea textarea-bordered h-40' placeholder="Recipe details"></textarea>
@@ -67,7 +80,7 @@ const AddItems = () => {
                     <div className='form-control w-full my-6'>
                         <input {...register('image', { required: true })} type="file" className='file-input w-full max-w-xs' />
                     </div>
-                    <button className='btn'>Add Item <FaUtensils></FaUtensils> </button>
+                    <button className='btn bg-[#B58130] text-white'>Add Item <FaUtensils></FaUtensils> </button>
                 </form>
             </div>
         </div>

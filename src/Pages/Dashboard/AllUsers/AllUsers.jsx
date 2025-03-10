@@ -63,49 +63,52 @@ const AllUsers = () => {
             <SectionTitle heading={"Manage all users"}
                 subHeading={"How many?"}>
             </SectionTitle>
-            <div>
-                <h2 className="text-3xl font-semibold mb-3">Total Users: {users.length}</h2>
-            </div>
-            {/* Table */}
-            <div className="overflow-x-auto">
-                <table className="table w-full  rounded-lg">
-                    {/* head */}
-                    <thead className='bg-[#D1A054] text-white'>
-                        <tr>
-                            <th>
 
-                            </th>
-                            <th>NAME</th>
-                            <th>EMAIL</th>
-                            <th>ROLE</th>
-                            <th>ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            users.map(user => <tr key={user._id}>
+            <div className='bg-slate-100 p-6'>
+                <div>
+                    <h2 className="text-3xl font-semibold mb-3">Total Users: {users.length}</h2>
+                </div>
+                {/* Table */}
+                <div className="overflow-x-auto">
+                    <table className="table w-full  rounded-lg">
+                        {/* head */}
+                        <thead className='bg-[#D1A054] text-white'>
+                            <tr>
                                 <th>
-                                    {users.indexOf(user) + 1}
-                                </th>
-                                <td>
-                                    {user?.name}
-                                </td>
-                                <td>
-                                    {user?.email}
-                                </td>
-                                <td> {user.role === 'admin' ? "Admin" : <button
-                                    onClick={() => handleMakeAdmin(user)}
-                                    className="btn bg-[#D1A054] btn-md"><FaUsers className='text-xl text-white'></FaUsers> </button>}</td>
-                                <th>
-                                    <button
-                                        onClick={() => handleDeleteUser(user)}
-                                        className="btn bg-[#B91C1C] btn-md"><FaTrashAlt className='text-md text-white'></FaTrashAlt> </button>
-                                </th>
-                            </tr>)
-                        }
 
-                    </tbody>
-                </table>
+                                </th>
+                                <th>NAME</th>
+                                <th>EMAIL</th>
+                                <th>ROLE</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                users.map(user => <tr key={user._id}>
+                                    <th>
+                                        {users.indexOf(user) + 1}
+                                    </th>
+                                    <td>
+                                        {user?.name}
+                                    </td>
+                                    <td>
+                                        {user?.email}
+                                    </td>
+                                    <td> {user.role === 'admin' ? "Admin" : <button
+                                        onClick={() => handleMakeAdmin(user)}
+                                        className="btn bg-[#D1A054] btn-md"><FaUsers className='text-xl text-white'></FaUsers> </button>}</td>
+                                    <th>
+                                        <button
+                                            onClick={() => handleDeleteUser(user)}
+                                            className="btn bg-[#B91C1C] btn-md"><FaTrashAlt className='text-md text-white'></FaTrashAlt> </button>
+                                    </th>
+                                </tr>)
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

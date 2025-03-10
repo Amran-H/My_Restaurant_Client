@@ -43,50 +43,52 @@ const Cart = () => {
             <SectionTitle heading={"Wanna Add More?"}
                 subHeading={"My Cart"}>
             </SectionTitle>
-            <div className='flex justify-between mb-4 font-semibold'>
-                <h2 className="text-3xl">Total Orders: {cart.length}</h2>
-                <h2 className="text-3xl">Total Price: {totalPrice}</h2>
-                <button className='btn bg-[#D1A054]  w-[70px] text-white font-bold'>Pay</button>
-            </div>
-            {/* Table */}
-            <div className="overflow-x-auto">
+            <div className='bg-slate-100 p-6'>
+                <div className='flex justify-between mb-4 font-semibold'>
+                    <h2 className="text-3xl">Total Orders: {cart.length}</h2>
+                    <h2 className="text-3xl">Total Price: {totalPrice}</h2>
+                    <button className='btn bg-[#D1A054]  w-[70px] text-white font-bold'>Pay</button>
+                </div>
+                {/* Table */}
+                <div className="overflow-x-auto">
 
-                <table className="table w-full">
-                    {/* head */}
-                    <thead className='bg-[#D1A054] text-white'>
-                        <tr>
-                            <th>
-                                #
-                            </th>
-                            <th>ITEM IMAGE</th>
-                            <th>ITEM NAME</th>
-                            <th>PRICE</th>
-                            <th>ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            cart.map(item => <tr key={item._id}>
+                    <table className="table w-full">
+                        {/* head */}
+                        <thead className='bg-[#D1A054] text-white'>
+                            <tr>
                                 <th>
-                                    {cart.indexOf(item) + 1}
+                                    #
                                 </th>
-                                <td>
-                                    <img src={item.image} alt={item.name} className="w-20 rounded-lg" />
-                                </td>
-                                <td>
-                                    {item.name}
-                                </td>
-                                <td>{item.price}</td>
-                                <th>
-                                    <button
-                                        onClick={() => handleDelete(item._id)}
-                                        className="btn bg-[#B91C1C] text-white btn-md"><FaTrashAlt></FaTrashAlt> </button>
-                                </th>
-                            </tr>)
-                        }
+                                <th>ITEM IMAGE</th>
+                                <th>ITEM NAME</th>
+                                <th>PRICE</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                cart.map(item => <tr key={item._id}>
+                                    <th>
+                                        {cart.indexOf(item) + 1}
+                                    </th>
+                                    <td>
+                                        <img src={item.image} alt={item.name} className="w-20 rounded-lg" />
+                                    </td>
+                                    <td>
+                                        {item.name}
+                                    </td>
+                                    <td>{item.price}</td>
+                                    <th>
+                                        <button
+                                            onClick={() => handleDelete(item._id)}
+                                            className="btn bg-[#B91C1C] text-white btn-md"><FaTrashAlt></FaTrashAlt> </button>
+                                    </th>
+                                </tr>)
+                            }
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
 
