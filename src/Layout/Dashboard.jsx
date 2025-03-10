@@ -13,8 +13,8 @@ const Dashboard = () => {
     return (
         <div className='flex'>
             {/* Sidebar */}
-            <div className='w-64 min-h-screen bg-[#D1A054]'>
-                <ul className='menu py-4'>
+            <div className='w-64 min-h-screen bg-[#D1A054] '>
+                <ul className='menu py-4 '>
                     {
                         isAdmin ? <>
                             <li><NavLink to='/dashboard/adminHome'><FaHome></FaHome> Admin Home</NavLink></li>
