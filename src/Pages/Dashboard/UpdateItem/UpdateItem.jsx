@@ -22,42 +22,49 @@ const UpdateItem = () => {
 
     const onSubmit = async (data) => {
         setIsLoading(true); // Start loading
+
         try {
-            let imageURL = image;
-            // Upload image
-            const imageFile = { image: data.image[0] };
-            const res = await axiosPublic.post(image_hosting_api, imageFile, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
+            let imageURL = image; // Use existing image by default
 
-            if (res.data.success) {
-                // Send menu data to server
-                const menuItem = {
-                    name: data.name,
-                    category: data.category,
-                    price: parseFloat(data.price),
-                    recipe: data.recipe,
-                    image: res.data.data.display_url
-                };
+            // Check if a new image is uploaded
+            if (data.image && data.image.length > 0) {
+                const imageFile = { image: data.image[0] };
+                const res = await axiosPublic.post(image_hosting_api, imageFile, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
 
-                const menuRes = await axiosSecure.patch(`/menu/${_id}`, menuItem);
-
-                if (menuRes.data.modifiedCount > 0) {
-                    // reset();
-                    Swal.fire({
-                        title: `${data.name} updated`,
-                        text: `${data.name} has been updated`,
-                        icon: 'success',
-                        timer: 1500,
-                    });
+                if (res.data.success) {
+                    imageURL = res.data.data.display_url;
                 }
             }
+
+            // Prepare the updated menu item object
+            const menuItem = {
+                name: data.name,
+                category: data.category,
+                price: parseFloat(data.price),
+                recipe: data.recipe,
+                image: imageURL, // Use updated or existing image
+            };
+
+            // Update the menu item
+            const menuRes = await axiosSecure.patch(`/menu/${_id}`, menuItem);
+
+            if (menuRes.data.modifiedCount > 0) {
+                Swal.fire({
+                    title: `${data.name} updated`,
+                    text: `${data.name} has been updated successfully!`,
+                    icon: 'success',
+                    timer: 1500,
+                });
+            }
         } catch (error) {
-            console.error("Error uploading:", error);
+            console.error("Error updating item:", error);
         } finally {
             setIsLoading(false); // Stop loading
         }
     };
+
 
     // Handle Image Selection for Preview
     const handleImageChange = (event) => {
@@ -134,13 +141,13 @@ const UpdateItem = () => {
                                     <img
                                         src={previewImage}
                                         alt="Selected Preview"
-                                        className="w-48 h-48 rounded-lg object-cover border shadow-md"
+                                        className="w-40 h-40 rounded-lg object-cover border shadow-md"
                                     />
                                 ) : (
                                     <img
                                         src={image} // This is the existing image
                                         alt="Existing Image"
-                                        className="w-48 h-48 rounded-lg object-cover border shadow-md"
+                                        className="w-40 h-40 rounded-lg object-cover border shadow-md"
                                     />
                                 )}
                             </div>
@@ -151,7 +158,7 @@ const UpdateItem = () => {
                                     <span className="label-text font-bold">Upload Image*</span>
                                 </label>
                                 <input
-                                    {...register('image', { required: true })}
+                                    {...register('image')}
                                     type="file"
                                     className="file-input w-full max-w-xs"
                                     onChange={handleImageChange}

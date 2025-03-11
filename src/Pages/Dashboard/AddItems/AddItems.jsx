@@ -123,10 +123,10 @@ const AddItems = () => {
                                     <img
                                         src={previewImage}
                                         alt="Selected Preview"
-                                        className="w-48 h-48 rounded-lg object-cover border shadow-md"
+                                        className="w-40 h-40 rounded-lg object-cover border shadow-md"
                                     />
                                 ) : (
-                                    <div className="w-48 h-48 flex items-center justify-center border rounded-lg bg-gray-200 text-gray-500">
+                                    <div className="w-40 h-40 flex items-center justify-center border rounded-lg bg-white text-gray-500">
                                         No Image Selected
                                     </div>
                                 )}
