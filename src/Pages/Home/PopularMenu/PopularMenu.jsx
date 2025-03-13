@@ -1,6 +1,7 @@
 import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
 import MenuItem from '../../Shared/MenuItem/MenuItem';
 import useMenu from '../../../hooks/useMenu';
+import { Link } from 'react-router-dom';
 
 const PopularMenu = () => {
     const [menu] = useMenu();
@@ -15,7 +16,7 @@ const PopularMenu = () => {
     //         })
     // }, [])
     return (
-        <section className='mb-12'>
+        <section className='mb-12 px-12 md:px-28'>
             <SectionTitle heading={"From Our Menu"} subHeading={"Popular Items"}>
             </SectionTitle>
             <div className='grid md:grid-cols-2 gap-10'>
@@ -27,7 +28,7 @@ const PopularMenu = () => {
                 }
             </div>
             <div className='text-center '>
-                <button className='btn btn-outline border-0 border-b-4 mt-4 uppercase text-l'>View Full Menu</button>
+                <Link to='/order/salad'><button className='btn btn-outline border-0 border-b-4 mt-8 uppercase text-l'>View Full Menu</button></Link>
             </div>
         </section>
     );

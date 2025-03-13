@@ -1,3 +1,25 @@
 .featured-item {
+    position: relative;
     background-image: url("../../../assets/home/featured.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.featured-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(75, 85, 99, 0.6);
+    /* Gray 600 with 60% opacity */
+    z-index: 1;
+    /* Ensures the overlay is above the background image */
+}
+
+/* If you have content inside .featured-item, ensure it's above the overlay */
+.featured-item>* {
+    position: relative;
+    z-index: 2;
 }
