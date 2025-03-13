@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../providers/AuthProvider';
 import { FaShoppingCart } from 'react-icons/fa';
 import useCart from '../../../hooks/useCart';
+import useAdmin from '../../../hooks/useAdmin';
 
 const NavBar = () => {
 
-    const { user, logOut } = useContext(AuthContext)
+    const { user, logOut } = useContext(AuthContext);
+    const [isAdmin] = useAdmin();
     const [cart] = useCart();
 
     const handleLogOut = () => {
@@ -19,13 +21,16 @@ const NavBar = () => {
         <li><Link to='/' className='text-white hover:text-white focus:text-white '>Home</Link></li>
         <li><Link to='/menu' className='text-white hover:text-white focus:text-white '>Our Menu</Link></li>
         <li><Link to='/order/salad' className='text-white hover:text-white focus:text-white '>Order Food</Link></li>
-        <li><Link to='/secret' className='text-white hover:text-white focus:text-white '>Secret</Link></li>
+        {
+            user && isAdmin && <li><Link to='/dashboard/adminHome' className='text-white hover:text-white focus:text-white '>Dashboard</Link></li>
+        }
+        {
+            user && !isAdmin && <li><Link to='/dashboard/userHome' className='text-white hover:text-white focus:text-white '>Dashboard</Link></li>
+        }
         <li>
-            <Link to='/dashboard/cart' className='text-white hover:text-white focus:text-white '>
-                <button className='btn btn-ghost'>
-                    <FaShoppingCart className='text-white' />
-                    <div className='badge badge-secondary'>+{cart.length}</div>
-                </button>
+            <Link to='/dashboard/cart' className=' btn-ghost text-white hover:text-white focus:text-white '>
+                <FaShoppingCart className='text-white' />
+                <div className='badge badge-secondary'>+{cart.length}</div>
             </Link>
         </li>
         {
