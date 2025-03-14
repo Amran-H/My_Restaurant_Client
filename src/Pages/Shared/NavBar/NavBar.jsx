@@ -36,7 +36,7 @@ const NavBar = () => {
 
     return (
         <>
-            <div className="max-w-[1280px] mx-auto px-8 flex items-center justify-between py-4 w-full bg-black bg-opacity-50 shadow-sm fixed z-50">
+            <div className="max-w-[1280px] mx-auto px-4 md:px-8 flex items-center justify-between py-4 w-full bg-black bg-opacity-50 shadow-sm fixed z-50">
                 {/* Logo */}
                 <Link to='/' className="text-2xl font-bold text-white">New Restaurant <span className='text-red-700'>.</span></Link>
 
@@ -50,16 +50,27 @@ const NavBar = () => {
                             <FaUser className="hidden md:flex mr-3" />
                             <div className='flex flex-col'>
                                 <span className='hidden md:flex text-left text-yellow-400 mt-[-8px]'>{user?.displayName}</span>
-                                <button onClick={handleLogOut} className="text-left text-sm font-semibold hover:text-gray-300 mt-[-2px] ">Logout</button>
+                                <button onClick={handleLogOut} className="hidden md:block text-left text-sm font-semibold hover:text-gray-300 mt-[-2px] ">Logout</button>
                             </div>
                         </div>
                     ) : (
                         <Link to='/login' className="hidden md:block text-white bg-blue-600 py-[5px] px-3 rounded-lg uppercase">Login</Link>
                     )}
 
-                    {/* Mobile Menu Button */}
-                    <button className="md:hidden text-white" onClick={toggleMobileMenu}>
-                        {isMobileMenuOpen ? <CgClose className="w-7 h-7" /> : <CgMenu className="w-7 h-7" />}
+                    <button
+                        className="md:hidden text-white relative w-8 h-8 flex items-center justify-center"
+                        onClick={toggleMobileMenu}
+                    >
+                        {/* Menu Icon (Visible when closed) */}
+                        <CgMenu
+                            className={`absolute w-7 h-7 transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'opacity-0 scale-0 rotate-90' : 'opacity-100 scale-100 rotate-0'
+                                }`}
+                        />
+                        {/* Close Icon (Visible when open) */}
+                        <CgClose
+                            className={`absolute w-7 h-7 transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-0 rotate-90'
+                                }`}
+                        />
                     </button>
                 </div>
             </div>

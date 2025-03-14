@@ -13,7 +13,7 @@ import './Category.css'; // Custom CSS file for Swiper styling
 
 const Category = () => {
     return (
-        <section className='mx-12 md:mx-28'>
+        <section className='px-4 md:px-12 lg:px-28'>
             <SectionTitle
                 heading={"Order Online"}
                 subHeading={"From 11.00am to 10.00pm"}
@@ -43,7 +43,7 @@ const Category = () => {
                     },
                 }}
                 modules={[Pagination]}
-                className="mySwiper"
+                className="mySwiper "
             >
                 <SwiperSlide>
                     <div className="relative">
