@@ -27,7 +27,7 @@ const SocialLogin = () => {
     return (
         <div >
             <div className='divider'>or</div>
-            <button onClick={handleGoogleSignIn} className='btn w-full btn-ghost border border-black'>
+            <button onClick={handleGoogleSignIn} className='btn btn-ghost w-full border border-black'>
                 <FaGoogle></FaGoogle> Google
             </button>
         </div>

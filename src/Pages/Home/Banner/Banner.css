@@ -25,3 +25,12 @@
     height: auto;
     /* Maintains aspect ratio */
 }
+
+@media (min-width: 1024px) {
+
+    /* Large screens (lg in Tailwind) */
+    .custom-carousel .carousel .slider-wrapper {
+        height: 88vh !important;
+        /* Forces full-screen height only for large screens */
+    }
+}

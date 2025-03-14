@@ -6,91 +6,85 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
 import SocialLogin from '../../Components/SocialLogin/SocialLogin';
+import loginImg from '../../../public/authentication2 1.png';
 
 const Login = () => {
+    const [loading, setLoading] = useState(false);
     const [disabled, setDisabled] = useState(true);
+    const [error, setError] = useState('');
     const { signIn } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
 
-    const from = location.state?.from || '/';   // If the user is not logged in, redirect to the page they were trying to access
+    const from = location.state?.from || '/';
 
     useEffect(() => {
         loadCaptchaEnginge(6);
-    }, [])
+    }, []);
 
     const handleLogin = (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError(''); // Reset error before new login attempt
         const email = e.target.email.value;
         const password = e.target.password.value;
-        console.log(email, password)
         signIn(email, password)
             .then(result => {
-                const user = result.user;
-                console.log(user);
                 Swal.fire({
                     icon: 'success',
                     title: 'Login Successful',
                     showConfirmButton: false,
                     timer: 1500
-                })
+                });
                 navigate(from, { replace: true });
             })
-    }
+            .catch(err => { setError(err.message) })
+            .finally(() => setLoading(false));
+    };
 
     const handleValidateCaptcha = (e) => {
         const captcha = e.target.value;
-        if (validateCaptcha(captcha)) {
-            setDisabled(false);
-        } else {
-            setDisabled(true);
-        }
-    }
+        setDisabled(!validateCaptcha(captcha));
+    };
 
     return (
         <>
             <Helmet>
                 <title>Login</title>
             </Helmet>
-            <div className="hero bg-base-200 min-h-screen">
-                <div className="hero-content flex-col lg:flex-row-reverse">
-                    <div className="text-center md:w-1/2 lg:text-left">
-                        <h1 className="text-5xl font-bold">Login now!</h1>
-                        <p className="py-6">
-                            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-                            quasi. In deleniti eaque aut repudiandae et a id nisi.
-                        </p>
+            <div className="flex justify-center items-center min-h-screen bg-cover bg-center" style={{ backgroundImage: `url('/Rectangle 75.png')` }}>
+                <div className="shadow-lg rounded-lg flex justify-evenly flex-col md:flex-row w-[90%] max-w-[1024px] p-8 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('/Rectangle 77.png')` }}>
+                    {/* Left Side Image */}
+                    <div className="hidden md:flex w-5/12 justify-center items-center">
+                        <img src={loginImg} alt="Login Illustration" className="w-full" />
                     </div>
-                    <div className="card bg-base-100 md:w-1/2 max-w-sm shadow-2xl">
-                        <form onSubmit={handleLogin} className="card-body">
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Email</span>
-                                </label>
-                                <input type="email" name='email' placeholder="email" className="input input-bordered" required />
+                    {/* Login Form */}
+                    <div className="w-full md:w-4/12">
+                        <h1 className="text-3xl font-bold text-center mb-4">Login</h1>
+                        <form onSubmit={handleLogin} className="space-y-4">
+                            <div>
+                                <label className="block text-gray-700">Email</label>
+                                <input type="email" name="email" className="w-full p-2 border rounded-md" placeholder="Type here" required />
                             </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Password</span>
-                                </label>
-                                <input type="password" name='password' placeholder="password" className="input input-bordered" required />
-                                <label className="label">
-                                    <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                                </label>
+                            <div>
+                                <label className="block text-gray-700">Password</label>
+                                <input type="password" name="password" className="w-full p-2 border rounded-md" placeholder="Enter your password" required />
                             </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <LoadCanvasTemplate />
-                                </label>
-                                <input onBlur={handleValidateCaptcha} type="text" name='captcha' placeholder="Type the text captcha" className="input input-bordered" required />
-                                {/* <button className='btn btn-outline btn-xs mt-2'>Validate</button> */}
+                            <div>
+                                <LoadCanvasTemplate />
+                                <input onBlur={handleValidateCaptcha} type="text" name="captcha" className="w-full p-2 border rounded-md mt-2" placeholder="Type here" required />
                             </div>
+                            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
                             <div className="form-control mt-6">
-                                <input disabled={disabled} className="btn btn-primary" type="submit" value='Login' />
+                                <button type="submit" className="btn w-full bg-[#D1A054] hover:bg-[#c57906] text-white p-2 rounded-md flex justify-center items-center" disabled={disabled || loading}>
+                                    {loading ? <span className="loading loading-spinner"></span> : 'Sign Up'}
+                                </button>
                             </div>
                         </form>
-                        <p className='mx-7 mt-[-30px]'> <SocialLogin></SocialLogin></p>
-                        <p className='px-6'><small>New Here? <Link to='/signUp'>Create an account</Link></small></p>
+                        <p className="text-center mt-4 text-gray-600">
+                            New here? <Link to="/signUp" className="text-[#D1A054]">Create a New Account</Link>
+                        </p>
+                        <p> <SocialLogin></SocialLogin></p>
                     </div>
                 </div>
             </div>

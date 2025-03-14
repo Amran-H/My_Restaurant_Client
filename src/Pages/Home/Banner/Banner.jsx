@@ -12,7 +12,7 @@ const Banner = () => {
     return (
         <Carousel
             showThumbs={true}
-            className="custom-carousel"
+            className="custom-carousel "
         // showStatus={false} // Optional: hides the status text
         // infiniteLoop={false} // Optional: enables looping
         >
