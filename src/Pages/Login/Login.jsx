@@ -42,10 +42,17 @@ const Login = () => {
             .finally(() => setLoading(false));
     };
 
-    const handleValidateCaptcha = (e) => {
-        const captcha = e.target.value;
-        setDisabled(!validateCaptcha(captcha));
+    const handleValidateCaptcha = () => {
+        const captchaValue = document.getElementById("captchaInput").value; // Get input value
+        if (validateCaptcha(captchaValue)) {
+            setDisabled(false);
+            setError(''); // Clear any previous errors
+        } else {
+            setError("Captcha validation failed. Please try again.");
+            setDisabled(true);
+        }
     };
+
 
     return (
         <>
@@ -72,13 +79,21 @@ const Login = () => {
                             </div>
                             <div>
                                 <LoadCanvasTemplate />
-                                <input onBlur={handleValidateCaptcha} type="text" name="captcha" className="w-full p-2 border rounded-md mt-2" placeholder="Type here" required />
+                                <input id="captchaInput" type="text" name="captcha" className="w-full p-2 border rounded-md mt-2" placeholder="Type here" required />
                             </div>
                             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
                             <div className="form-control mt-6">
-                                <button type="submit" className="btn w-full bg-[#D1A054] hover:bg-[#c57906] text-white p-2 rounded-md flex justify-center items-center" disabled={disabled || loading}>
-                                    {loading ? <span className="loading loading-spinner"></span> : 'Sign Up'}
-                                </button>
+                                {disabled ? (
+                                    <button type="button" onClick={handleValidateCaptcha} className="btn w-full bg-[#D1A054] hover:bg-[#c57906] text-white p-2 rounded-md">
+                                        Validate Captcha
+                                    </button>
+                                ) : (
+                                    <button type="submit" className="btn w-full bg-[#D1A054] hover:bg-[#c57906] text-white p-2 rounded-md flex justify-center items-center" disabled={loading}>
+                                        {loading ? <span className="loading loading-spinner"></span> : 'Login'}
+                                    </button>
+                                )}
+
+
                             </div>
                         </form>
                         <p className="text-center mt-4 text-gray-600">
