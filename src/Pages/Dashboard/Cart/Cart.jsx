@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useCart from '../../../hooks/useCart';
-import { FaCut, FaTrash, FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
@@ -8,10 +8,12 @@ import { Link } from 'react-router-dom';
 
 const Cart = () => {
     const [cart, refetch] = useCart();
+    const [loadingItems, setLoadingItems] = useState({});  // Track loading state for each item
     const totalPrice = cart.reduce((total, item) => total + item.price, 0);
     const axiosSecure = useAxiosSecure();
 
     const handleDelete = (id) => {
+        setLoadingItems(prevState => ({ ...prevState, [id]: true }));  // Set loading for the clicked item
 
         Swal.fire({
             title: 'Are you sure?',
@@ -35,6 +37,18 @@ const Cart = () => {
                             });
                         }
                     })
+                    .catch((error) => {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Something went wrong while deleting the item.',
+                            icon: 'error',
+                        });
+                    })
+                    .finally(() => {
+                        setLoadingItems(prevState => ({ ...prevState, [id]: false }));  // Reset loading for the clicked item
+                    });
+            } else {
+                setLoadingItems(prevState => ({ ...prevState, [id]: false }));  // Reset loading if deletion is canceled
             }
         })
     }
@@ -42,8 +56,7 @@ const Cart = () => {
     return (
         <div>
             <SectionTitle heading={"Wanna Add More?"}
-                subHeading={"My Cart"}>
-            </SectionTitle>
+                subHeading={"My Cart"} />
             <div className='bg-slate-100 p-6'>
                 <div className='flex justify-between mb-4 font-semibold'>
                     <h2 className="text-3xl">Total Orders: {cart.length}</h2>
@@ -53,14 +66,11 @@ const Cart = () => {
                 </div>
                 {/* Table */}
                 <div className="overflow-x-auto">
-
                     <table className="table w-full">
                         {/* head */}
                         <thead className='bg-[#D1A054] text-white'>
                             <tr>
-                                <th>
-                                    #
-                                </th>
+                                <th>#</th>
                                 <th>ITEM IMAGE</th>
                                 <th>ITEM NAME</th>
                                 <th>PRICE</th>
@@ -68,32 +78,33 @@ const Cart = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                cart.map(item => <tr key={item._id}>
-                                    <th>
-                                        {cart.indexOf(item) + 1}
-                                    </th>
+                            {cart.map(item => (
+                                <tr key={item._id}>
+                                    <th>{cart.indexOf(item) + 1}</th>
                                     <td>
                                         <img src={item.image} alt={item.name} className="w-20 rounded-lg" />
                                     </td>
-                                    <td>
-                                        {item.name}
-                                    </td>
+                                    <td>{item.name}</td>
                                     <td>{item.price}</td>
                                     <th>
                                         <button
                                             onClick={() => handleDelete(item._id)}
-                                            className="btn bg-[#B91C1C] text-white btn-md"><FaTrashAlt></FaTrashAlt> </button>
+                                            className={`btn bg-[#B91C1C] text-white btn-md ${loadingItems[item._id] ? 'cursor-wait' : ''}`}  // Disable button for the specific item
+                                            disabled={loadingItems[item._id]}  // Disable only the clicked item button
+                                        >
+                                            {loadingItems[item._id] ? (
+                                                <span className="loading loading-spinner loading-spinner-sm" style={{ width: '14px' }}></span>  // Loader icon for the specific item
+                                            ) : (
+                                                <FaTrashAlt />
+                                            )}
+                                        </button>
                                     </th>
-                                </tr>)
-                            }
-
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
             </div>
-
-
         </div>
     );
 };

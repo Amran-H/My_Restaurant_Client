@@ -10,6 +10,7 @@ const CheckoutForm = () => {
     const [error, setError] = useState('');
     const [clientSecret, setClientSecret] = useState('');
     const [transactionId, setTransactionId] = useState('');
+    const [loading, setLoading] = useState(false);  // State for managing loading
     const stripe = useStripe();
     const elements = useElements();
     const axiosSecure = useAxiosSecure();
@@ -22,12 +23,10 @@ const CheckoutForm = () => {
         if (totalPrice > 0) {
             axiosSecure.post('/create-payment-intent', { price: totalPrice })
                 .then(res => {
-                    console.log((res.data.clientSecret));
                     setClientSecret(res.data.clientSecret);
                 })
         }
     }, [axiosSecure, totalPrice])
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -36,24 +35,27 @@ const CheckoutForm = () => {
             return;
         }
 
-        const card = elements.getElement(CardElement)
+        const card = elements.getElement(CardElement);
 
         if (card === null) {
             return;
         }
 
+        setLoading(true); // Set loading to true before payment
+
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
             card
-        })
+        });
 
         if (error) {
-            setError(error.message)
+            setError(error.message);
+            setLoading(false);  // Set loading to false if there's an error
+        } else {
+            setError('');
         }
-        else {
-            setError('')
-        }
-        // confirm payment 
+
+        // Confirm payment
         const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: card,
@@ -62,30 +64,29 @@ const CheckoutForm = () => {
                     name: user?.displayName || 'anonymous'
                 }
             }
-        })
+        });
 
         if (confirmError) {
             console.log('confirm error');
-        }
-        else {
-            console.log('payment intent', paymentIntent);
+            setLoading(false);  // Set loading to false if there's a confirm error
+        } else {
             if (paymentIntent.status === 'succeeded') {
-                setTransactionId(paymentIntent.id)
+                setTransactionId(paymentIntent.id);
 
-                // now saving the payment in database
+                // Now saving the payment in the database
                 const payment = {
                     email: user.email,
                     price: totalPrice,
                     transactionId: paymentIntent.id,
-                    date: new Date(), //utc data convert. using moment js
+                    date: new Date(),
                     cartIds: cart.map(item => item._id),
                     menuItemIds: cart.map(item => item.menuId),
                     status: 'Pending'
-                }
+                };
 
                 const res = await axiosSecure.post('/payments', payment);
-                console.log('payment saved', res.data);
                 refetch();
+
                 if (res.data?.paymentResult?.insertedId) {
                     Swal.fire({
                         title: `Payment`,
@@ -93,12 +94,13 @@ const CheckoutForm = () => {
                         icon: 'success',
                         timer: 1500,
                     });
-                    navigate('/dashboard/paymentHistory')
+                    navigate('/dashboard/paymentHistory');
                 }
             }
         }
-    }
 
+        setLoading(false);  // Set loading to false after the payment process is done
+    }
 
     return (
         <form onSubmit={handleSubmit}>
@@ -117,15 +119,20 @@ const CheckoutForm = () => {
                         },
                     },
                 }}
+            />
+            <button
+                className='btn btn-primary btn-md w-56 mt-8 text-white text-lg'
+                type="submit"
+                disabled={!stripe || !clientSecret || loading} // Disable button during loading
             >
-
-            </CardElement>
-            <button className='btn btn-primary btn-md w-56 mt-8 text-white text-lg' type="submit"
-                disabled={!stripe || !clientSecret}>
-                Pay
+                {loading ? (
+                    <span className="loading loading-spinner"></span>  // Show the loader
+                ) : (
+                    'Pay'
+                )}
             </button>
             <p className='text-red-600'>{error}</p>
-            {transactionId && <p className='text-green-600'>Your transaction id: {transactionId}</p>}
+            {/* {transactionId && <p className='text-green-600'>Your transaction id: {transactionId}</p>} */}
         </form>
     );
 };
