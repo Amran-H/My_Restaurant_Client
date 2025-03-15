@@ -9,6 +9,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import ReCAPTCHA from "react-google-recaptcha";
 
+const Recaptcha_Site_Key = import.meta.env.VITE_Recaptcha_Site_Key;
+
 const schema = yup.object().shape({
     name: yup.string().required("Name is required"),
     email: yup.string().email("Invalid email").required("Email is required"),
@@ -57,7 +59,7 @@ const ContactUs = () => {
                 heading={"Our Location"}
             ></SectionTitle>
 
-            <div className="flex flex-col md:flex-row gap-6 justify-center items-center px-12 md:px-12 lg:px-28">
+            <div className="flex flex-col md:flex-row gap-6 justify-center items-center mb-24 px-12 md:px-12 lg:px-28">
                 {info.map((item, index) => (
                     <div key={index} className="w-full border shadow-lg">
                         <div className="bg-[#C69652] text-white flex justify-center items-center py-4">
@@ -108,7 +110,7 @@ const ContactUs = () => {
                         <label className="block text-gray-700 font-semibold">Phone*</label>
                         <input
                             {...register("phone")}
-                            type="text"
+                            type="number"
                             placeholder="Enter your phone number"
                             className="w-full p-3 border rounded-md focus:ring focus:ring-gray-300"
                         />
@@ -127,15 +129,16 @@ const ContactUs = () => {
                     </div>
 
                     {/* reCAPTCHA */}
-                    <div className="flex justify-center">
-                        <ReCAPTCHA sitekey="YOUR_RECAPTCHA_SITE_KEY" />
+                    <div className="flex justify-start">
+                        <ReCAPTCHA sitekey={Recaptcha_Site_Key} />
+                        {/* <ReCAPTCHA sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" /> */}
                     </div>
 
                     {/* Submit Button */}
                     <div className="text-center">
                         <button
                             type="submit"
-                            className="bg-[#967043] text-white py-3 px-6 rounded-md hover:bg-[#805a37] flex items-center mx-auto"
+                            className="bg-[#967043] btn text-white py-3 px-6 rounded-md hover:bg-[#805a37] flex items-center mx-auto"
                         >
                             Send Message <span className='ml-2'><FaPaperPlane /></span>
                         </button>

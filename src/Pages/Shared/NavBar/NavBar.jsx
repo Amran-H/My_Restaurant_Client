@@ -5,6 +5,7 @@ import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { CgMenu, CgClose } from 'react-icons/cg';
 import useCart from '../../../hooks/useCart';
 import useAdmin from '../../../hooks/useAdmin';
+import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
     const { user, logOut } = useContext(AuthContext);
@@ -20,20 +21,49 @@ const NavBar = () => {
 
     const navOptions = (
         <>
-            <li><Link to='/' className='nav-link text-white'>Home</Link></li>
-            <li><Link to='/contactUs' className='nav-link text-white'>Contact Us</Link></li>
-            <li><Link to='/menu' className='nav-link text-white'>Our Menu</Link></li>
-            <li><Link to='/order/salad' className='nav-link text-white'>Order Food</Link></li>
-            {user && isAdmin && <li><Link to='/dashboard/adminHome' className='nav-link text-white'>Dashboard</Link></li>}
-            {user && !isAdmin && <li><Link to='/dashboard/userHome' className='nav-link text-white'>Dashboard</Link></li>}
             <li>
-                <Link to='/dashboard/cart' className='flex items-center nav-link'>
-                    <FaShoppingCart className='mr-[3px] text-white' />
+                <NavLink to='/' className={({ isActive }) => isActive ? 'text-blue-500 font-semibold' : 'text-white'}>
+                    Home
+                </NavLink>
+            </li>
+            <li>
+                <NavLink to='/contactUs' className={({ isActive }) => isActive ? 'text-blue-500 font-semibold' : 'text-white'}>
+                    Contact Us
+                </NavLink>
+            </li>
+            <li>
+                <NavLink to='/menu' className={({ isActive }) => isActive ? 'text-blue-500 font-semibold' : 'text-white'}>
+                    Our Menu
+                </NavLink>
+            </li>
+            <li>
+                <NavLink to='/order/salad' className={({ isActive }) => isActive ? 'text-blue-500 font-semibold' : 'text-white'}>
+                    Order Food
+                </NavLink>
+            </li>
+            {user && isAdmin && (
+                <li>
+                    <NavLink to='/dashboard/adminHome' className={({ isActive }) => isActive ? 'text-blue-500 font-semibold' : 'text-white'}>
+                        Dashboard
+                    </NavLink>
+                </li>
+            )}
+            {user && !isAdmin && (
+                <li>
+                    <NavLink to='/dashboard/userHome' className={({ isActive }) => isActive ? 'text-blue-500 font-semibold' : 'text-white'}>
+                        Dashboard
+                    </NavLink>
+                </li>
+            )}
+            <li>
+                <NavLink to='/dashboard/cart' className={({ isActive }) => isActive ? 'text-blue-500 font-semibold flex items-center' : 'text-white flex items-center'}>
+                    <FaShoppingCart className='mr-[3px]' />
                     <div className='bg-blue-600 text-white text-xs rounded-full px-[6px] py-[2px]'>{cart.length}</div>
-                </Link>
+                </NavLink>
             </li>
         </>
     );
+
 
     return (
         <>
@@ -55,7 +85,7 @@ const NavBar = () => {
                             </div>
                         </div>
                     ) : (
-                        <Link to='/login' className="hidden md:block text-white bg-blue-600 py-[5px] px-3 rounded-lg uppercase">Login</Link>
+                        <Link to='/login' className=" hidden md:block text-white bg-blue-600 hover:bg-blue-800 py-[5px] px-3 rounded-lg uppercase">Login</Link>
                     )}
 
                     <button
