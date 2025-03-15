@@ -17,7 +17,7 @@ const OrderTab = ({ items }) => {
             // slidesPerView={3} // Adjust as needed
             >
                 <SwiperSlide>
-                    <div className='grid md:grid-cols-3 gap-10'>
+                    <div className='grid md:grid-cols-3 mb-10 gap-10 px-8 md:px-12 lg:px-28'>
                         {
                             items.map(item => (<FoodCard
                                 key={item._id}

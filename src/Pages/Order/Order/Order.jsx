@@ -26,9 +26,9 @@ const Order = () => {
             <Helmet>
                 <title>Order</title>
             </Helmet>
-            <Cover img={coverImg} title={"Order Food"}></Cover>
-            <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
-                <TabList>
+            <Cover img={coverImg} title={"Order Food"} description={"Choose From Our Best Dishes!"}></Cover>
+            <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)} >
+                <TabList className='pt-16 pb-10 flex justify-center uppercase font-semibold'>
                     <Tab>Salad</Tab>
                     <Tab>Pizza</Tab>
                     <Tab>Soup</Tab>

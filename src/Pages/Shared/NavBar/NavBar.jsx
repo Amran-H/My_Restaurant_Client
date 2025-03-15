@@ -21,6 +21,7 @@ const NavBar = () => {
     const navOptions = (
         <>
             <li><Link to='/' className='nav-link text-white'>Home</Link></li>
+            <li><Link to='/contactUs' className='nav-link text-white'>Contact Us</Link></li>
             <li><Link to='/menu' className='nav-link text-white'>Our Menu</Link></li>
             <li><Link to='/order/salad' className='nav-link text-white'>Order Food</Link></li>
             {user && isAdmin && <li><Link to='/dashboard/adminHome' className='nav-link text-white'>Dashboard</Link></li>}

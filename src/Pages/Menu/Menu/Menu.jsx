@@ -24,13 +24,13 @@ const Menu = () => {
             <Helmet>
                 <title>Our Menu</title>
             </Helmet>
-            <Cover img={menuImg} title={"our menu"}></Cover>
+            <Cover img={menuImg} title={"our menu"} description={"Would you like to try our delicious food?"}></Cover>
             <SectionTitle heading={"Today's Offer"} subHeading={"Don't miss"}></SectionTitle>
             <MenuCategory items={offered}></MenuCategory>
-            <MenuCategory items={desserts} title={"desserts"} img={dessertImg}></MenuCategory>
-            <MenuCategory items={pizza} title={"pizza"} img={pizzaImg}></MenuCategory>
-            <MenuCategory items={salad} title={"salad"} img={saladImg}></MenuCategory>
-            <MenuCategory items={soup} title={"soup"} img={soupImg}></MenuCategory>
+            <MenuCategory items={desserts} title={"desserts"} img={dessertImg} description={"Would you like to try our desserts?"}></MenuCategory>
+            <MenuCategory items={pizza} title={"pizza"} img={pizzaImg} description={"Would you like to try our pizza?"}></MenuCategory>
+            <MenuCategory items={salad} title={"salad"} img={saladImg} description={"Would you like to try our salad?"}></MenuCategory>
+            <MenuCategory items={soup} title={"soup"} img={soupImg} description={"Would you like to try our soup?"}></MenuCategory>
         </div>
     );
 };

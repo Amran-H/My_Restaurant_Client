@@ -13,8 +13,8 @@ const Banner = () => {
         <Carousel
             showThumbs={true}
             className="custom-carousel "
-        // showStatus={false} // Optional: hides the status text
-        // infiniteLoop={false} // Optional: enables looping
+            // showStatus={false} // Optional: hides the status text
+            infiniteLoop={true} // Optional: enables looping
         >
             <div>
                 <img src={img1} />

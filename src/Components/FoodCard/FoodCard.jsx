@@ -70,7 +70,7 @@ const FoodCard = ({ item }) => {
     };
 
     return (
-        <div className="card bg-base-100 w-96 shadow-xl">
+        <div className="card bg-gray-100 max-w-96 shadow-xl">
             <figure>
                 <img
                     src={image}
@@ -83,7 +83,7 @@ const FoodCard = ({ item }) => {
                 <div className="card-actions justify-end">
                     <button
                         onClick={handleAddToCart}
-                        className={`btn btn-outline bg-slate-100 text-yellow-600 border-0 border-b-4 mt-4 ${loading ? 'cursor-wait' : ''}`}
+                        className={`btn btn-outline uppercase bg-slate-200 text-yellow-600 border-0 border-b-4 mt-4 ${loading ? 'cursor-wait' : ''}`}
                         disabled={loading}  // Disable the button during loading
                     >
                         {loading ? (
