@@ -3,7 +3,7 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { FaWallet, FaUsers, FaBoxOpen, FaTruck } from "react-icons/fa";
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, PieChart, Pie, Legend } from 'recharts';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, PieChart, Pie, Legend, ResponsiveContainer } from 'recharts';
 
 const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
@@ -65,7 +65,7 @@ const AdminHome = () => {
     });
 
     return (
-        <div className="mt-10 md:mt-0 px-4 md:px-8">
+        <div className="mt-10 md:mt-0 md:px-8">
             <h2 className="text-3xl font-semibold mb-8 text-center">
                 Hi, Welcome<span className="text-yellow-500"> {user?.displayName || "Back"}</span>!
             </h2>
@@ -106,48 +106,50 @@ const AdminHome = () => {
                 {/* Bar Chart */}
                 <div className="flex-1 bg-white rounded-lg shadow-md p-4">
                     <h3 className="text-lg font-semibold mb-4 text-center">Order Quantity by Category</h3>
-                    <BarChart
-                        width={400}
-                        height={300}
-                        data={chartData}
-                        margin={{
-                            top: 20,
-                            right: 0,
-                            left: 0,
-                            bottom: 5,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="category" />
-                        <YAxis />
-                        <Bar dataKey="quantity" fill="#8884d8" shape={<TriangleBar />} label={{ position: 'top' }}>
-                            {chartData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={colors[index % 6]} />
-                            ))}
-                        </Bar>
-                    </BarChart>
+                    <ResponsiveContainer width="100%" height={300}>
+                        <BarChart
+                            data={chartData}
+                            margin={{
+                                top: 20,
+                                right: -5,
+                                left: -30,
+                                bottom: 5,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="category" />
+                            <YAxis />
+                            <Bar dataKey="quantity" fill="#8884d8" shape={<TriangleBar />} label={{ position: 'top' }}>
+                                {chartData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={colors[index % 6]} />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
                 </div>
 
                 {/* Pie Chart */}
                 <div className="flex-1 bg-white rounded-lg shadow-md p-4">
                     <h3 className="text-lg font-semibold mb-4 text-center">Revenue Distribution</h3>
-                    <PieChart width={400} height={300}>
-                        <Pie
-                            data={pieChartData}
-                            cx="50%"
-                            cy="50%"
-                            labelLine={false}
-                            label={renderCustomizedLabel}
-                            outerRadius={100}
-                            fill="#8884d8"
-                            dataKey="value"
-                        >
-                            {pieChartData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                        </Pie>
-                        <Legend />
-                    </PieChart>
+                    <ResponsiveContainer width="100%" height={300}>
+                        <PieChart>
+                            <Pie
+                                data={pieChartData}
+                                cx="50%"
+                                cy="50%"
+                                labelLine={false}
+                                label={renderCustomizedLabel}
+                                outerRadius={100}
+                                fill="#8884d8"
+                                dataKey="value"
+                            >
+                                {pieChartData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                ))}
+                            </Pie>
+                            <Legend />
+                        </PieChart>
+                    </ResponsiveContainer>
                 </div>
             </div>
         </div>

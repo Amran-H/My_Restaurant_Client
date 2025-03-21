@@ -58,8 +58,8 @@ const ManageItems = () => {
                 <div className='flex flex-col md:flex-row justify-between mb-4 font-semibold'>
                     <h2 className="text-xl md:text-2xl font-bold pt-4">Total Items: {menu.length}</h2>
                 </div>
-                {/* Table */}
-                <div className="overflow-x-auto w-[360px] md:w-full">
+                {/* Responsive Table */}
+                <div className="hidden md:block overflow-x-auto">
                     <table className="table w-full">
                         {/* head */}
                         <thead className='bg-[#D1A054] text-white'>
@@ -75,9 +75,9 @@ const ManageItems = () => {
                         </thead>
                         <tbody>
                             {
-                                menu.map(item => (
+                                menu.map((item, index) => (
                                     <tr key={item._id}>
-                                        <th>{menu.indexOf(item) + 1}</th>
+                                        <th>{index + 1}</th>
                                         <td>
                                             <img src={item.image} alt={item.name} className="w-12 md:w-20 rounded-lg" />
                                         </td>
@@ -103,6 +103,35 @@ const ManageItems = () => {
                             }
                         </tbody>
                     </table>
+                </div>
+
+                {/* Card Layout for Mobile */}
+                <div className="block md:hidden">
+                    {
+                        menu.map((item, index) => (
+                            <div key={item._id} className="bg-white shadow-md rounded-lg p-4 mb-4">
+                                <div className="flex items-center justify-between mb-2">
+                                    <h3 className="font-bold text-lg">#{index + 1}</h3>
+                                    <img src={item.image} alt={item.name} className="w-16 h-16 rounded-lg" />
+                                </div>
+                                <p><span className="font-semibold">Name:</span> {item.name}</p>
+                                <p><span className="font-semibold">Category:</span> {item.category}</p>
+                                <p><span className="font-semibold">Price:</span> ${item.price}</p>
+                                <div className="flex justify-between mt-4">
+                                    <Link to={`/dashboard/updateItem/${item._id}`}>
+                                        <button className="btn bg-[#D1A054] text-white btn-sm">
+                                            <FaRegEdit className='text-sm'></FaRegEdit> Edit
+                                        </button>
+                                    </Link>
+                                    <button
+                                        onClick={() => handleDelete(item._id)}
+                                        className="btn bg-[#B91C1C] text-white btn-sm">
+                                        <FaTrashAlt className='text-sm'></FaTrashAlt> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
         </div>

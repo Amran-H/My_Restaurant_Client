@@ -1,4 +1,4 @@
-import { useQueries, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { FaTrashAlt, FaUsers } from 'react-icons/fa';
@@ -45,38 +45,33 @@ const AllUsers = () => {
     const handleMakeAdmin = user => {
         axiosSecure.patch(`/users/admin/${user._id}`)
             .then(res => {
-                console.log(res.data);
                 if (res.data.modifiedCount > 0) {
-                    refetch()
+                    refetch();
                     Swal.fire({
                         title: `${user.name} is an Admin now!`,
                         icon: 'success',
                         showConfirmationButton: false,
                         timer: 1500
-                    })
+                    });
                 }
-            })
+            });
     };
 
     return (
         <div>
-            <SectionTitle heading={"Manage all users"}
-                subHeading={"How many?"}>
-            </SectionTitle>
-
-            <div className='bg-slate-100 p-6'>
+            <SectionTitle heading={"Manage all users"} subHeading={"How many?"} />
+            <div className='bg-slate-100 p-1 md:p-6'>
                 <div>
                     <h2 className="text-3xl font-semibold mb-3">Total Users: {users.length}</h2>
                 </div>
-                {/* Table */}
-                <div className="overflow-x-auto">
-                    <table className="table w-full  rounded-lg">
+
+                {/* Table for Larger Screens */}
+                <div className="hidden md:block overflow-x-auto">
+                    <table className="table w-full rounded-lg">
                         {/* head */}
                         <thead className='bg-[#D1A054] text-white'>
                             <tr>
-                                <th>
-
-                                </th>
+                                <th>#</th>
                                 <th>NAME</th>
                                 <th>EMAIL</th>
                                 <th>ROLE</th>
@@ -84,30 +79,60 @@ const AllUsers = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                users.map(user => <tr key={user._id}>
-                                    <th>
-                                        {users.indexOf(user) + 1}
-                                    </th>
+                            {users.map((user, index) => (
+                                <tr key={user._id}>
+                                    <th>{index + 1}</th>
+                                    <td>{user?.name}</td>
+                                    <td>{user?.email}</td>
                                     <td>
-                                        {user?.name}
+                                        {user.role === 'admin' ? "Admin" : (
+                                            <button
+                                                onClick={() => handleMakeAdmin(user)}
+                                                className="btn bg-[#D1A054] btn-md">
+                                                <FaUsers className='text-xl text-white' />
+                                            </button>
+                                        )}
                                     </td>
-                                    <td>
-                                        {user?.email}
-                                    </td>
-                                    <td> {user.role === 'admin' ? "Admin" : <button
-                                        onClick={() => handleMakeAdmin(user)}
-                                        className="btn bg-[#D1A054] btn-md"><FaUsers className='text-xl text-white'></FaUsers> </button>}</td>
                                     <th>
                                         <button
                                             onClick={() => handleDeleteUser(user)}
-                                            className="btn bg-[#B91C1C] btn-md"><FaTrashAlt className='text-md text-white'></FaTrashAlt> </button>
+                                            className="btn bg-[#B91C1C] btn-md">
+                                            <FaTrashAlt className='text-md text-white' />
+                                        </button>
                                     </th>
-                                </tr>)
-                            }
-
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
+                </div>
+
+                {/* Card Layout for Mobile Screens */}
+                <div className="block md:hidden">
+                    {users.map((user, index) => (
+                        <div key={user._id} className="bg-white shadow-md rounded-lg p-4 mb-4">
+                            <div className="flex justify-between items-center mb-2">
+                                <h3 className="font-bold text-lg">#{index + 1}</h3>
+                                <p className="text-sm text-gray-500">{user?.email}</p>
+                            </div>
+                            <p><span className="font-semibold">Name:</span> {user?.name}</p>
+                            <p>
+                                <span className="font-semibold">Role:</span> {user.role === 'admin' ? "Admin" : (
+                                    <button
+                                        onClick={() => handleMakeAdmin(user)}
+                                        className="btn bg-[#D1A054] btn-sm mt-2">
+                                        <FaUsers className='text-sm text-white' /> Make Admin
+                                    </button>
+                                )}
+                            </p>
+                            <div className="flex justify-end mt-4">
+                                <button
+                                    onClick={() => handleDeleteUser(user)}
+                                    className="btn bg-[#B91C1C] btn-sm text-white">
+                                    <FaTrashAlt className='text-sm text-white' /> Delete
+                                </button>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

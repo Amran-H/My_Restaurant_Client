@@ -63,9 +63,9 @@ const AddItems = () => {
     };
 
     return (
-        <div className="px-1 sm:px-0">
+        <div>
             <SectionTitle heading="ADD AN ITEM" subHeading="What's new?" />
-            <div className="bg-[#F3F3F3] py-8 px-4 sm:px-8 lg:px-12 rounded-lg shadow-md">
+            <div className="bg-[#F3F3F3] py-8 px-2 sm:px-8 lg:px-12 rounded-lg shadow-md">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-control w-full my-6">
                         <label className="label">
