@@ -63,27 +63,32 @@ const AddItems = () => {
     };
 
     return (
-        <div>
+        <div className="px-1 sm:px-0">
             <SectionTitle heading="ADD AN ITEM" subHeading="What's new?" />
-            <div className='bg-[#F3F3F3] py-8 px-12'>
+            <div className="bg-[#F3F3F3] py-8 px-4 sm:px-8 lg:px-12 rounded-lg shadow-md">
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className='form-control w-full my-6'>
+                    <div className="form-control w-full my-6">
                         <label className="label">
-                            <span className='label-text font-bold'>Recipe Name*</span>
+                            <span className="label-text font-bold">Recipe Name*</span>
                         </label>
-                        <input type="text"
-                            placeholder='Recipe Name'
+                        <input
+                            type="text"
+                            placeholder="Recipe Name"
                             {...register('name', { required: true })}
-                            className='input input-bordered w-full' />
+                            className="input input-bordered w-full"
+                        />
                     </div>
 
-                    <div className='flex gap-6 mb-6'>
-                        <div className='form-control w-full'>
+                    <div className="flex flex-col lg:flex-row gap-6 mb-6">
+                        <div className="form-control w-full">
                             <label className="label">
-                                <span className='label-text font-bold'>Category*</span>
+                                <span className="label-text font-bold">Category*</span>
                             </label>
-                            <select defaultValue="default" {...register("category", { required: true })}
-                                className='select select-bordered w-full '>
+                            <select
+                                defaultValue="default"
+                                {...register("category", { required: true })}
+                                className="select select-bordered w-full"
+                            >
                                 <option disabled value="default">Select a category</option>
                                 <option value="salad">Salad</option>
                                 <option value="pizza">Pizza</option>
@@ -93,27 +98,33 @@ const AddItems = () => {
                             </select>
                         </div>
 
-                        <div className='form-control w-full '>
+                        <div className="form-control w-full">
                             <label className="label">
-                                <span className='label-text font-bold'>Price*</span>
+                                <span className="label-text font-bold">Price*</span>
                             </label>
-                            <input type="number"
-                                placeholder='Price'
+                            <input
+                                type="number"
+                                placeholder="Price"
                                 {...register('price', { required: true })}
-                                className='input input-bordered w-full' />
+                                className="input input-bordered w-full"
+                            />
                         </div>
                     </div>
 
-                    <div className='form-control'>
+                    <div className="form-control">
                         <label className="label font-bold">
                             <span>Recipe Details*</span>
                         </label>
-                        <textarea {...register('recipe', { required: true })} className='textarea textarea-bordered h-40' placeholder="Recipe details"></textarea>
+                        <textarea
+                            {...register('recipe', { required: true })}
+                            className="textarea textarea-bordered h-40"
+                            placeholder="Recipe details"
+                        ></textarea>
                     </div>
 
                     {/* Image Upload Section */}
                     <div className="form w-full my-6">
-                        <div className="flex items-start gap-6">
+                        <div className="flex flex-col lg:flex-row items-start gap-6">
                             {/* Show Selected Image */}
                             <div className="flex flex-col">
                                 <label className="label">
@@ -133,7 +144,7 @@ const AddItems = () => {
                             </div>
 
                             {/* Upload Image Button */}
-                            <div className="flex flex-col">
+                            <div className="flex flex-col w-full">
                                 <label className="label">
                                     <span className="label-text font-bold">Upload Image*</span>
                                 </label>
@@ -148,7 +159,10 @@ const AddItems = () => {
                     </div>
 
                     {/* Submit Button */}
-                    <button className='btn bg-[#B58130] text-white flex items-center' disabled={isLoading}>
+                    <button
+                        className="btn bg-[#B58130] text-white flex items-center justify-center w-full lg:w-auto"
+                        disabled={isLoading}
+                    >
                         {isLoading ? (
                             <span className="loading loading-spinner"></span>
                         ) : (

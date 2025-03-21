@@ -52,24 +52,20 @@ const ManageItems = () => {
 
     return (
         <div>
-            <SectionTitle heading={"Manage all Items"}
-                subHeading={"Hurry up!"}>
+            <SectionTitle heading={"Manage all Items"} subHeading={"Hurry up!"}>
             </SectionTitle>
-            <div className='bg-slate-100 p-6'>
-                <div className='flex justify-between mb-4 font-semibold'>
-                    <h2 className="text-2xl font-bold">Total Items: {menu.length}</h2>
+            <div className='bg-slate-100 p-1 md:p-6 rounded-lg'>
+                <div className='flex flex-col md:flex-row justify-between mb-4 font-semibold'>
+                    <h2 className="text-xl md:text-2xl font-bold pt-4">Total Items: {menu.length}</h2>
                 </div>
                 {/* Table */}
-                <div className="overflow-x-auto">
-
+                <div className="overflow-x-auto w-[360px] md:w-full">
                     <table className="table w-full">
                         {/* head */}
                         <thead className='bg-[#D1A054] text-white'>
                             <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th>ITEM IMAGE</th>
+                                <th>#</th>
+                                <th>IMAGE</th>
                                 <th>ITEM NAME</th>
                                 <th>CATEGORY</th>
                                 <th>PRICE</th>
@@ -79,39 +75,36 @@ const ManageItems = () => {
                         </thead>
                         <tbody>
                             {
-                                menu.map(item => <tr key={item._id}>
-                                    <th>
-                                        {menu.indexOf(item) + 1}
-                                    </th>
-                                    <td>
-                                        <img src={item.image} alt={item.name} className="w-20 rounded-lg" />
-                                    </td>
-                                    <td>
-                                        {item.name}
-                                    </td>
-                                    <td>
-                                        {item.category}
-                                    </td>
-                                    <td>{item.price}</td>
-                                    <th>
-                                        <Link to={`/dashboard/updateItem/${item._id}`}>
-                                            <button className="btn bg-[#D1A054] text-white btn-md"><FaRegEdit className='text-lg'></FaRegEdit> </button>
-                                        </Link>
-                                    </th>
-                                    <th>
-                                        <button
-                                            onClick={() => handleDelete(item._id)}
-                                            className="btn bg-[#B91C1C] text-white btn-md"><FaTrashAlt></FaTrashAlt> </button>
-                                    </th>
-                                </tr>)
+                                menu.map(item => (
+                                    <tr key={item._id}>
+                                        <th>{menu.indexOf(item) + 1}</th>
+                                        <td>
+                                            <img src={item.image} alt={item.name} className="w-12 md:w-20 rounded-lg" />
+                                        </td>
+                                        <td className="text-sm">{item.name}</td>
+                                        <td className="text-sm">{item.category}</td>
+                                        <td className="text-sm">{item.price}</td>
+                                        <th>
+                                            <Link to={`/dashboard/updateItem/${item._id}`}>
+                                                <button className="btn bg-[#D1A054] text-white btn-sm md:btn-md">
+                                                    <FaRegEdit className='text-sm md:text-lg'></FaRegEdit>
+                                                </button>
+                                            </Link>
+                                        </th>
+                                        <th>
+                                            <button
+                                                onClick={() => handleDelete(item._id)}
+                                                className="btn bg-[#B91C1C] text-white btn-sm md:btn-md">
+                                                <FaTrashAlt className='text-sm'></FaTrashAlt>
+                                            </button>
+                                        </th>
+                                    </tr>
+                                ))
                             }
-
                         </tbody>
                     </table>
                 </div>
             </div>
-
-
         </div>
     );
 };

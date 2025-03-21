@@ -31,7 +31,6 @@ const AdminHome = () => {
     if (isLoading) return <p className="text-center text-lg">Loading...</p>;
     if (error) return <p className="text-center text-red-500">Error loading stats.</p>;
 
-    // custom shape for the bar chart
     const getPath = (x, y, width, height) => {
         return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3}
         ${x + width / 2}, ${y}
@@ -45,7 +44,6 @@ const AdminHome = () => {
         return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
     };
 
-    // custom shape for pie chart
     const RADIAN = Math.PI / 180;
     const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
@@ -64,65 +62,58 @@ const AdminHome = () => {
             name: data.category,
             value: data.revenue
         }
-    })
-
+    });
 
     return (
-        <div>
-            <h2 className="text-3xl font-semibold mb-8">
+        <div className="mt-10 md:mt-0 px-4 md:px-8">
+            <h2 className="text-3xl font-semibold mb-8 text-center">
                 Hi, Welcome<span className="text-yellow-500"> {user?.displayName || "Back"}</span>!
             </h2>
 
             {/* Cards Section */}
-            <div className="p-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    {/* Revenue Card */}
-                    <div className="rounded-xl shadow-lg p-6 flex items-center">
-                        <FaWallet className="text-4xl mr-4" />
-                        <div className="ml-4">
-                            <h3 className="text-3xl font-bold">${stats?.revenue || 0}</h3>
-                            <p className="text-lg uppercase">Revenue</p>
-                        </div>
-                    </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center mb-10">
+                {/* Revenue Card */}
+                <div className="rounded-lg shadow-md p-6 bg-white hover:shadow-lg transition-shadow flex flex-col justify-center items-center">
+                    <FaWallet className="text-4xl text-yellow-500 mb-4" />
+                    <h3 className="text-2xl font-bold">${stats?.revenue || 0}</h3>
+                    <p className="text-sm text-gray-500 uppercase">Revenue</p>
+                </div>
 
-                    {/* Users Card */}
-                    <div className="rounded-xl shadow-lg  p-6 flex items-center">
-                        <FaUsers className="text-4xl mr-4" />
-                        <div className="ml-4">
-                            <h3 className="text-3xl font-bold">{stats?.users || 0}</h3>
-                            <p className="text-lg uppercase">Users</p>
-                        </div>
-                    </div>
+                {/* Users Card */}
+                <div className="rounded-lg shadow-md p-6 bg-white hover:shadow-lg transition-shadow flex flex-col justify-center items-center">
+                    <FaUsers className="text-4xl text-blue-500 mb-4" />
+                    <h3 className="text-2xl font-bold">{stats?.users || 0}</h3>
+                    <p className="text-sm text-gray-500 uppercase">Users</p>
+                </div>
 
-                    {/* Menu Items Card */}
-                    <div className="rounded-xl shadow-lg  p-6 flex items-center">
-                        <FaBoxOpen className="text-4xl mr-4" />
-                        <div className="ml-4">
-                            <h3 className="text-3xl font-bold">{stats?.menuItems || 0}</h3>
-                            <p className="text-lg uppercase">Menus</p>
-                        </div>
-                    </div>
+                {/* Menu Items Card */}
+                <div className="rounded-lg shadow-md p-6 bg-white hover:shadow-lg transition-shadow flex flex-col justify-center items-center">
+                    <FaBoxOpen className="text-4xl text-green-500 mb-4" />
+                    <h3 className="text-2xl font-bold">{stats?.menuItems || 0}</h3>
+                    <p className="text-sm text-gray-500 uppercase">Menus</p>
+                </div>
 
-                    {/* Orders Card */}
-                    <div className="rounded-xl shadow-lg   p-6 flex items-center">
-                        <FaTruck className="text-4xl mr-4" />
-                        <div className="ml-4">
-                            <h3 className="text-3xl font-bold">{stats?.orders || 0}</h3>
-                            <p className="text-lg uppercase">Orders</p>
-                        </div>
-                    </div>
+                {/* Orders Card */}
+                <div className="rounded-lg shadow-md p-6 bg-white hover:shadow-lg transition-shadow flex flex-col justify-center items-center">
+                    <FaTruck className="text-4xl text-red-500 mb-4" />
+                    <h3 className="text-2xl font-bold">{stats?.orders || 0}</h3>
+                    <p className="text-sm text-gray-500 uppercase">Orders</p>
                 </div>
             </div>
-            <div className="flex">
-                <div className="w-1/2">
+
+            {/* Charts Section */}
+            <div className="flex flex-col md:flex-row gap-8">
+                {/* Bar Chart */}
+                <div className="flex-1 bg-white rounded-lg shadow-md p-4">
+                    <h3 className="text-lg font-semibold mb-4 text-center">Order Quantity by Category</h3>
                     <BarChart
-                        width={500}
+                        width={400}
                         height={300}
                         data={chartData}
                         margin={{
                             top: 20,
-                            right: 30,
-                            left: 20,
+                            right: 0,
+                            left: 0,
                             bottom: 5,
                         }}
                     >
@@ -136,15 +127,18 @@ const AdminHome = () => {
                         </Bar>
                     </BarChart>
                 </div>
-                <div className="w-1/2">
-                    <PieChart width={400} height={400}>
+
+                {/* Pie Chart */}
+                <div className="flex-1 bg-white rounded-lg shadow-md p-4">
+                    <h3 className="text-lg font-semibold mb-4 text-center">Revenue Distribution</h3>
+                    <PieChart width={400} height={300}>
                         <Pie
                             data={pieChartData}
                             cx="50%"
                             cy="50%"
                             labelLine={false}
                             label={renderCustomizedLabel}
-                            outerRadius={80}
+                            outerRadius={100}
                             fill="#8884d8"
                             dataKey="value"
                         >
@@ -152,10 +146,9 @@ const AdminHome = () => {
                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                         </Pie>
-                        <Legend></Legend>
+                        <Legend />
                     </PieChart>
                 </div>
-
             </div>
         </div>
     );
