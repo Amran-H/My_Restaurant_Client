@@ -85,7 +85,7 @@ const NavBar = () => {
                             </div>
                         </div>
                     ) : (
-                        <Link to='/login' className=" hidden md:block text-white bg-blue-600 hover:bg-blue-800 py-[5px] px-3 rounded-lg uppercase">Login</Link>
+                        <Link to='/login' className=" hidden md:block text-white border border-gray-400 hover:bg-gray-900 py-[4px] px-3 rounded-lg uppercase">Login</Link>
                     )}
 
                     <button
