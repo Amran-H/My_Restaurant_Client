@@ -24,17 +24,21 @@ const Dashboard = () => {
                             <li><NavLink to="/dashboard/adminHome" onClick={toggleSidebar}><FaHome /> Admin Home</NavLink></li>
                             <li><NavLink to="/dashboard/addItems" onClick={toggleSidebar}><FaUtensils /> Add Items</NavLink></li>
                             <li><NavLink to="/dashboard/manageItems" onClick={toggleSidebar}><FaList /> Manage Items</NavLink></li>
-                            <li><NavLink to="/dashboard/bookings" onClick={toggleSidebar}><FaBook /> Manage Bookings</NavLink></li>
+                            {/* <li><NavLink to="/dashboard/bookings" onClick={toggleSidebar}><FaBook /> Manage Bookings</NavLink></li> */}
+                            <li><NavLink to="/" onClick={toggleSidebar}><FaBook /> Manage Bookings</NavLink></li>
                             <li><NavLink to="/dashboard/users" onClick={toggleSidebar}><FaUsers /> All Users</NavLink></li>
                         </>
                     ) : (
                         <>
                             <li><NavLink to="/dashboard/userHome" onClick={toggleSidebar}><FaHome /> User Home</NavLink></li>
-                            <li><NavLink to="/dashboard/reservation" onClick={toggleSidebar}><FaCalendar /> Reservation</NavLink></li>
+                            {/* <li><NavLink to="/dashboard/reservation" onClick={toggleSidebar}><FaCalendar /> Reservation</NavLink></li> */}
+                            <li><NavLink to="/" onClick={toggleSidebar}><FaCalendar /> Reservation</NavLink></li>
                             <li><NavLink to="/dashboard/paymentHistory" onClick={toggleSidebar}><FaPaypal /> Payment History</NavLink></li>
                             <li><NavLink to="/dashboard/cart" onClick={toggleSidebar}><FaShoppingCart /> My Cart ({cart?.length})</NavLink></li>
-                            <li><NavLink to="/dashboard/review" onClick={toggleSidebar}><FaAd /> Add Reviews</NavLink></li>
-                            <li><NavLink to="/dashboard/bookings" onClick={toggleSidebar}><FaList /> My Bookings</NavLink></li>
+                            {/* <li><NavLink to="/dashboard/review" onClick={toggleSidebar}><FaAd /> Add Reviews</NavLink></li> */}
+                            <li><NavLink to="/" onClick={toggleSidebar}><FaAd /> Add Reviews</NavLink></li>
+                            {/* <li><NavLink to="/dashboard/bookings" onClick={toggleSidebar}><FaList /> My Bookings</NavLink></li> */}
+                            <li><NavLink to="/" onClick={toggleSidebar}><FaList /> My Bookings</NavLink></li>
                         </>
                     )}
 
@@ -56,7 +60,7 @@ const Dashboard = () => {
             </button>
 
             {/* Dashboard Content */}
-            <div className="flex-1 p-8 ml-0 md:ml-64">
+            <div className="flex-1 p-4 ml-0 md:ml-64">
                 <Outlet />
             </div>
         </div>

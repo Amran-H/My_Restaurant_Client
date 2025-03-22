@@ -96,7 +96,7 @@ const SignUp = () => {
                             {error && <p className="text-red-500 text-sm text-center mb-2">{error}</p>}
                             <div className="form-control mt-6">
                                 <button type="submit" className="btn w-full bg-[#D1A054] hover:bg-[#c57906] text-white p-2 rounded-md flex justify-center items-center" disabled={loading}>
-                                    {loading ? <span className="loading loading-spinner"></span> : 'Sign Up'}
+                                    {loading ? <span className="loading loading-spinner text-black"></span> : 'Sign Up'}
                                 </button>
                             </div>
                         </form>
